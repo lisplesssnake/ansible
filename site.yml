@@ -1,0 +1,31 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates
+    package:
+      update_cache: yes
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache and php
+    package:
+      name: 
+        - "{{ apache_package}}"
+        - "{{php_package}}"
+      state: latest
+
+
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: install maria
+    package:
+      name: 
+        - "{{ mariadb_package}}"
+      state: latest
