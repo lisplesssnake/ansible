@@ -11,21 +11,15 @@
     owner: root
     group: root
     mode: 0644
-- name: enable httpd service (CentOS)
+- name: enable httpd service
   service:
    name: "{{ apache_service }}"
    state: started
    enabled: yes
-  when: ansible_distribution == "CentOS"
 - name: change admin email in conf file
   lineinfile:
     path: /etc/httpd/conf/httpd.conf
     regexp: ^ServerAdmin
-    line: ServerAdmin miruna@somewhere.com
+    line: ServerAdmin miruna@someplace.net
   when: ansible_distribution == "CentOS"
-  register: httpd_var
-- name: restart httpd
-  service:
-    name: httpd
-    state: restarted
-  when: httpd_var.changed
+  notify: restart_apache
