@@ -2,3 +2,5 @@ apache_package: httpd
 php_package: php 
 mariadb_package: mariadb
 apache_service: httpd
+sshd_template_file: sshd_config_centos.j2
+ssh_users: "miruna simone"

@@ -1,0 +1,8 @@
+- name: update sshd config
+  template: 
+    src: "{{ sshd_template_file }}"
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_sshd
