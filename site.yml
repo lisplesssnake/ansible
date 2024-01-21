@@ -5,10 +5,12 @@
   pre_tasks:
 
   - name: install updates
+    tags: always
     package:
       update_cache: yes
 
 - hosts: web_servers
+  tags: apache,http,apache2
   become: true
   tasks:
 
@@ -21,6 +23,7 @@
 
 
 - hosts: db_servers
+  tags: db,mariadb
   become: true
   tasks:
 
