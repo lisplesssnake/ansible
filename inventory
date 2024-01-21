@@ -3,3 +3,6 @@
 
 [db_servers]
 192.168.132.130 apache_package=httpd php_package=php mariadb_package=mariadb
+
+[workstations]
+192.168.132.130
