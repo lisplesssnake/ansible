@@ -36,6 +36,20 @@
      enabled: yes
     when: ansible_distribution == "CentOS"
 
+  - name: change admin email in conf file
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: ^ServerAdmin
+      line: ServerAdmin miruna@somewhere.com
+    when: ansible_distribution == "CentOS"
+    register: httpd_var
+
+  - name: restart httpd
+    service:
+      name: httpd
+      state: restarted
+    when: httpd_var.changed
+
 - hosts: db_servers
   tags: db,mariadb
   become: true
