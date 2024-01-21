@@ -4,10 +4,11 @@
   become: true
   pre_tasks:
 
-  - name: install updates
+  - name: update repo index
     tags: always
     package:
       update_cache: yes
+    changed_when: false
 
 - hosts: web_servers
   tags: apache,http,apache2
