@@ -21,6 +21,16 @@
         - "{{php_package}}"
       state: latest
 
+  - name: add default index
+    copy:
+      src: default_index.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+
+
 
 - hosts: db_servers
   tags: db,mariadb
