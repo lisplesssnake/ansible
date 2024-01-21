@@ -1,9 +1,9 @@
 [web_servers]
-192.168.132.129 apache_package=apache2 php_package=libapache2-mod-php mariadb_package=mariadb-server
-192.168.132.130 apache_package=httpd php_package=php mariadb_package=mariadb
+192.168.132.129
+192.168.132.130
 
 [db_servers]
-192.168.132.130 apache_package=httpd php_package=php mariadb_package=mariadb
+192.168.132.130
 
 [workstations]
 192.168.132.130
