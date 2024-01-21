@@ -1,0 +1,5 @@
+- name: install maria
+  package:
+    name: 
+      - "{{ mariadb_package}}"
+    state: latest

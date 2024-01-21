@@ -1,0 +1,82 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: update repo index
+    tags: always
+    package:
+      update_cache: yes
+    changed_when: false
+
+- hosts: web_servers
+  tags: apache,http,apache2
+  become: true
+  tasks:
+
+  - name: install apache and php
+    package:
+      name: 
+        - "{{ apache_package}}"
+        - "{{php_package}}"
+      state: latest
+
+  - name: add default index
+    copy:
+      src: default_index.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: enable httpd service (CentOS)
+    service:
+     name: httpd
+     state: started
+     enabled: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: change admin email in conf file
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: ^ServerAdmin
+      line: ServerAdmin miruna@somewhere.com
+    when: ansible_distribution == "CentOS"
+    register: httpd_var
+
+  - name: restart httpd
+    service:
+      name: httpd
+      state: restarted
+    when: httpd_var.changed
+
+- hosts: db_servers
+  tags: db,mariadb
+  become: true
+  tasks:
+
+  - name: install maria
+    package:
+      name: 
+        - "{{ mariadb_package}}"
+      state: latest
+
+- hosts: workstations
+  tags: workstation
+  become: true
+  tasks:
+
+  - name: install unzip
+    package:
+      name: unzip
+      state: latest
+
+  - name: install terraform from zip
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_386.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      owner: root
+      group: root
+      mode: 755
